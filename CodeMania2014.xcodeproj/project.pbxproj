@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D36350AD1881FAD000A79C4A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D36350AC1881FAD000A79C4A /* main.cpp */; };
+		D3DC7AE018D403AE00E75789 /* diff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3DC7ADE18D403AE00E75789 /* diff.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +24,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D3572F1F18D4064A00DECFF5 /* LinkedList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
 		D36350A91881FAD000A79C4A /* CodeMania2014 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CodeMania2014; sourceTree = BUILT_PRODUCTS_DIR; };
 		D36350AC1881FAD000A79C4A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		D3DC7ADE18D403AE00E75789 /* diff.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = diff.cpp; sourceTree = "<group>"; };
+		D3DC7ADF18D403AE00E75789 /* diff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = diff.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +62,9 @@
 			isa = PBXGroup;
 			children = (
 				D36350AC1881FAD000A79C4A /* main.cpp */,
+				D3DC7ADE18D403AE00E75789 /* diff.cpp */,
+				D3DC7ADF18D403AE00E75789 /* diff.h */,
+				D3572F1F18D4064A00DECFF5 /* LinkedList.h */,
 			);
 			path = CodeMania2014;
 			sourceTree = "<group>";
@@ -88,7 +95,7 @@
 		D36350A11881FAD000A79C4A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Orion Edwards";
 			};
 			buildConfigurationList = D36350A41881FAD000A79C4A /* Build configuration list for PBXProject "CodeMania2014" */;
@@ -113,6 +120,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3DC7AE018D403AE00E75789 /* diff.cpp in Sources */,
 				D36350AD1881FAD000A79C4A /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,7 +199,6 @@
 		D36350B31881FAD000A79C4A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -199,7 +206,6 @@
 		D36350B41881FAD000A79C4A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

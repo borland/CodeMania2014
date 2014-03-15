@@ -12,6 +12,9 @@
 #include <string>
 #include <sstream>
 
+#include "LinkedList.h"
+#include "diff.h"
+
 using namespace std;
 
 struct Nameable {
@@ -31,96 +34,78 @@ struct PersonZ : public Nameable {
     }
 };
 
-template<typename T>
-struct LinkedList {
-    struct ListNode {
-        T item;
-        ListNode* next;
-        
-        ListNode(T item, ListNode* next = nullptr)
-            : item(item)
-            , next(next)
-        { }
-        
-        ~ListNode() {
-            if(next) {
-                delete next;
-            }
-        }
-    };
-    
-    ListNode* head;
-    ListNode* tail;
-    
-    LinkedList()
-    : head(nullptr), tail(nullptr)
-    { }
-    
-    ~LinkedList() {
-        if(head) {
-            delete head; // deletes the whole list
-        }
-    }
-    
-    void push(T item) {
-        auto node = new ListNode(item);
-        if(tail){
-            tail->next = node;
-        }
-        tail = node;
-        if(!head) {
-            head = node;
-        }
-    }
-    
-    T pop() {
-        if(head) {
-            T ret = head->item;
-            ListNode* oldhead = head;
-            swap(head->next, head);
-            
-            oldhead->next = nullptr;
-            delete oldhead;
-            return ret;
-        } else {
-            return T();
-        }
-    }
-    
-    template<typename TCallback>
-    void iterate(TCallback cb) {
-        for(auto n = head; n; n = n->next) {
-            if(n)
-                cb(n->item);
-        }
-    }
-};
-
-template<typename T>
-wstring toString(T x) {
-    std::wstringstream s;
+template<typename _Char, typename T>
+basic_string<_Char> toString(T x) {
+    basic_stringstream<_Char> s;
     s << x;
     return s.str();
 }
 
 template<typename T>
-wstring safesprintf(const wstring &format, T obj) {
-    wstring output { format };
-    size_t pos = output.find(L"%@");
-    assert(pos != wstring::npos); // not enough %@ in our string
-    
-    output.replace(pos, 2, toString(obj));
-    return output;
+wstring toString(const wstring& x) {
+    wstringstream s;
+    s << x;
+    return s.str();
 }
 
-template<typename T, typename... Args>
-wstring safesprintf(const wstring &format, T obj, Args... rest) {
-    wstring output { format };
-    size_t pos = output.find(L"%@");
-    assert(pos >= 0);
+template <typename CharType>
+struct PrintfHelper;
+
+template <>
+struct PrintfHelper<char> {
+    static size_t print(const string& s) {
+        cout << s;
+        return s.length();
+    }
     
-    output.replace(pos, 2, toString(obj));
-    return safesprintf(output, rest...);
+    static const char* sep;
+};
+
+template <>
+struct PrintfHelper<wchar_t> {
+    static size_t print(const wstring& s) {
+        wcout << s;
+        return s.length();
+    }
+    static const wchar_t* sep;
+};
+
+const char* PrintfHelper<char>::sep = "%@";
+const wchar_t* PrintfHelper<wchar_t>::sep = L"%@";
+
+template<typename _Char, typename T>
+basic_string<_Char> safesprintf(basic_string<_Char> format, T obj) {
+    size_t pos = format.find(PrintfHelper<_Char>::sep);
+    assert(pos != basic_string<_Char>::npos); // not enough %@ in our string
+    
+    string s = toString<_Char, T>(obj);
+    format.replace(pos, 2, s);
+    return format;
+}
+
+template<typename _Char, typename T, typename... Args>
+wstring safesprintf(basic_string<_Char> format, T obj, Args... rest) {
+    size_t pos = format.find(PrintfHelper<_Char>::sep);
+    assert(pos != basic_string<_Char>::npos); // not enough %@ in our string
+    
+    format.replace(pos, 2, toString(obj));
+    return safesprintf(format, rest...);
+}
+
+template<typename _Char, typename... Args>
+size_t safeprintf(const basic_string<_Char>& format, Args... rest) {
+    return PrintfHelper<_Char>::print(safesprintf(format, rest...));
+}
+
+template<typename _Char, typename... Args>
+size_t safeprintf(const _Char * format, Args... rest) {
+    return PrintfHelper<_Char>::print(
+                                      safesprintf(basic_string<_Char>(format), rest...));
+}
+
+template<typename _Char>
+size_t safeprintf(const basic_string<_Char>& format) {
+    return PrintfHelper<_Char>::print(format);
 }
 
 struct Person {
@@ -134,25 +119,17 @@ wstring toString(Person x) {
     return s.str();
 }
 
+template<typename T>
+T add(T a, T b, T c, T d) {
+    return a + b + c + d;
+}
+
+
 int main(int argc, const char * argv[])
 {
-//    LinkedList<int> list;
-//    list.push(1);
-//    list.push(2);
-//    list.push(3);
-//    
-//    list.pop();
-//    
-//    list.iterate([](int x){
-//        cout << x << endl;
-//    });
+    safeprintf("%@\n", add(1, 2,3 ,4));
+    safeprintf("%@\n", add(1.7, 2.3, 3.6, 4.8));
     
-    Person p { L"Orion" };
-    
-    wcout << safesprintf(L"foo %@\n", L"bar");
-    
-    wcout << safesprintf(L"We have %@ dogs and %@ cats for a total price of %@ dollars, and an owner of %@\n",
-            5, 3, 7.5, p);
-    
+    safeprintf("%@\n", add<string>("cat", "dog", "horse", "fish"));
 }
 
