@@ -17,23 +17,6 @@
 
 using namespace std;
 
-struct Nameable {
-    virtual string getName() const = 0;
-    virtual void setName(string name) = 0;
-};
-
-struct PersonZ : public Nameable {
-    string m_name;
-    
-    string getName() const override {
-        return m_name;
-    }
-    
-    void setName(string name) override {
-        m_name = name;
-    }
-};
-
 template<typename _Char, typename T>
 basic_string<_Char> toString(T x) {
     basic_stringstream<_Char> s;
