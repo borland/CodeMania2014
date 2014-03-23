@@ -40,7 +40,7 @@ struct MyDerived : Mybase {
     
 };
 
-int main()
+int Xmain()
 {
     Derived_from<D,B>();
     Derived_from<DD,B>();
@@ -51,4 +51,6 @@ int main()
     Container<Mybase> c1;
 //    Container<string> c2;
     Container<MyDerived> c3;
+    
+    return 0;
 }

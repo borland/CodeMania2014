@@ -51,8 +51,7 @@ T add(T a, T b, T c, T d) {
     return a + b + c + d;
 }
 
-
-int mymain(int argc, const char * argv[])
+int main(int argc, const char * argv[])
 {
     
     safeprintf("%@\n", add(1, 2,3 ,4));
