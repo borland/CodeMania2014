@@ -1,13 +1,4 @@
-//
-//  diff.h
-//  CodeMania2014
-//
-//  Created by Orion Edwards on 15/03/14.
-//  Copyright (c) 2014 Orion Edwards. All rights reserved.
-//
-
-#ifndef __CodeMania2014__diff__
-#define __CodeMania2014__diff__
+#pragma once
 
 #include <iostream>
 #include <functional>
@@ -33,5 +24,3 @@ private:
     std::unique_ptr<T> _value;
     const Generator _generator;
 };
-
-#endif /* defined(__CodeMania2014__diff__) */

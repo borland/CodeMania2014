@@ -1,14 +1,4 @@
-//
-//  LinkedList.h
-//  CodeMania2014
-//
-//  Created by Orion Edwards on 15/03/14.
-//  Copyright (c) 2014 Orion Edwards. All rights reserved.
-//
-
-#ifndef CodeMania2014_LinkedList_h
-#define CodeMania2014_LinkedList_h
-
+#pragma once
 
 template<typename T>
 struct LinkedList {
@@ -74,5 +64,3 @@ struct LinkedList {
         }
     }
 };
-
-#endif

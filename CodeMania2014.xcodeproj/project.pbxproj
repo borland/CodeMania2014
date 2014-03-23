@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D3509CF918DE5FC100B76E9B /* generic_constraints.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3509CF718DE5FC100B76E9B /* generic_constraints.cpp */; };
 		D36350AD1881FAD000A79C4A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D36350AC1881FAD000A79C4A /* main.cpp */; };
-		D3DC7AE018D403AE00E75789 /* diff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3DC7ADE18D403AE00E75789 /* diff.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,11 +24,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D3509CF518D526BD00B76E9B /* safeprintf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = safeprintf.h; sourceTree = "<group>"; };
+		D3509CF718DE5FC100B76E9B /* generic_constraints.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = generic_constraints.cpp; sourceTree = "<group>"; };
 		D3572F1F18D4064A00DECFF5 /* LinkedList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LinkedList.h; sourceTree = "<group>"; };
 		D36350A91881FAD000A79C4A /* CodeMania2014 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CodeMania2014; sourceTree = BUILT_PRODUCTS_DIR; };
 		D36350AC1881FAD000A79C4A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		D3DC7ADE18D403AE00E75789 /* diff.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = diff.cpp; sourceTree = "<group>"; };
-		D3DC7ADF18D403AE00E75789 /* diff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = diff.h; sourceTree = "<group>"; };
+		D3DC7ADF18D403AE00E75789 /* memo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memo.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,10 +62,11 @@
 		D36350AB1881FAD000A79C4A /* CodeMania2014 */ = {
 			isa = PBXGroup;
 			children = (
-				D36350AC1881FAD000A79C4A /* main.cpp */,
-				D3DC7ADE18D403AE00E75789 /* diff.cpp */,
-				D3DC7ADF18D403AE00E75789 /* diff.h */,
+				D3DC7ADF18D403AE00E75789 /* memo.h */,
 				D3572F1F18D4064A00DECFF5 /* LinkedList.h */,
+				D3509CF518D526BD00B76E9B /* safeprintf.h */,
+				D36350AC1881FAD000A79C4A /* main.cpp */,
+				D3509CF718DE5FC100B76E9B /* generic_constraints.cpp */,
 			);
 			path = CodeMania2014;
 			sourceTree = "<group>";
@@ -120,8 +122,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3DC7AE018D403AE00E75789 /* diff.cpp in Sources */,
 				D36350AD1881FAD000A79C4A /* main.cpp in Sources */,
+				D3509CF918DE5FC100B76E9B /* generic_constraints.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,9 +161,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INIT_ROUTINE = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -191,8 +195,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INIT_ROUTINE = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
