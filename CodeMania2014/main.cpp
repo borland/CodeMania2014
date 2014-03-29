@@ -39,25 +39,60 @@ struct Person {
     wstring _name;
 };
 
-template<>
-wstring toString(Person x) {
-    std::wstringstream s;
-    s << L"<Person:" << x._name << L">";
-    return s.str();
-}
+template<typename _Char>
+struct StringConverter<Person, _Char> {
+    static basic_string<_Char> toString(Person p) {
+        std::basic_stringstream<_Char> s;
+        s << L"<Person:" << p._name << L">";
+        return s.str();
+    }
+};
+
+// partial spec for pointers
+
+template<typename T, typename _Char>
+struct StringConverter<T*, _Char> {
+    static basic_string<_Char> toString(T* p) {
+        return StringConverter<T, _Char>::toString(*p);
+    }
+};
 
 template<typename T>
-T add(T a, T b, T c, T d) {
-    return a + b + c + d;
+struct Wrapper {
+    T* value;
+};
+
+// partial spec for wrappers
+//template<typename T, typename _Char>
+//struct StringConverter<Wrapper<T>, _Char> {
+//    static basic_string<_Char> toString(Wrapper<T> p) {
+//        return StringConverter<T, _Char>::toString(*(p.value));
+//    }
+//};
+
+template <typename T>
+T add (T a, T b) {
+    return a + b;
 }
 
-int main(int argc, const char * argv[])
-{
+int main(int argc, char** argv) {
+    int x = add<std::string>("hello", 2.2);
     
-    safeprintf("%@\n", add(1, 2,3 ,4));
-    safeprintf("%@\n", add(1.7, 2.3, 3.6, 4.8));
-    safeprintf("%@\n", add<string>("cat", "dog", "horse", "fish"));
-
-    return 0;
+    
+//    safeprintf("%@\n", );
+//    safeprintf("%@\n", add(1.7, 2.3, 3.6, 4.8));
+//    safeprintf("%@\n", add<string>("cat", "dog", L"horse", "fish"));
 }
+
+
+//    Person p { L"Orion" };
+//    
+//    Person* j = new Person { L"Orion" };
+//    
+//    Wrapper<Person> w { &p };
+//    
+//    safeprintf(L"%@\n", p );
+//    safeprintf(L"%@\n", j);
+//    safeprintf(L"%@\n", w);
+
 

@@ -2,23 +2,22 @@
 
 #include <string>
 
-
-template<typename _Char, typename T>
-std::basic_string<_Char> toString(T x) {
-    std::basic_stringstream<_Char> s;
-    s << x;
-    return s.str();
-}
-
-template<typename _Char>
-std::basic_string<_Char> toString(const std::basic_string<_Char>& x) {
-    return x;
-}
+// base template; cheat by using stringstream
+template<typename T, typename _Char>
+struct StringConverter {
+    static std::basic_string<_Char> toString(T x) {
+        std::basic_stringstream<_Char> s;
+        s << x;
+        return s.str();
+    }
+};
 
 template<typename _Char>
-std::basic_string<_Char> toString(const _Char* x) {
-    return x;
-}
+struct StringConverter<char*, _Char> {
+    static std::basic_string<_Char> toString(char* x) {
+        return x;
+    }
+};
 
 template <typename CharType>
 struct PrintfHelper;
@@ -50,7 +49,7 @@ std::basic_string<_Char> safesprintf(std::basic_string<_Char> format, T obj) {
     auto pos = format.find(PrintfHelper<_Char>::sep);
     assert(pos != std::basic_string<_Char>::npos); // not enough %@ in our string
     
-    auto s = toString<_Char, T>(obj);
+    auto s = StringConverter<T, _Char>::toString(obj);
     format.replace(pos, 2, s);
     return format;
 }
@@ -60,7 +59,7 @@ std::basic_string<_Char> safesprintf(std::basic_string<_Char> format, T obj, Arg
     auto pos = format.find(PrintfHelper<_Char>::sep);
     assert(pos != std::basic_string<_Char>::npos); // not enough %@ in our string
     
-    format.replace(pos, 2, toString(obj));
+    format.replace(pos, 2, StringConverter<T, _Char>::toString(obj));
     return safesprintf(format, rest...);
 }
 
