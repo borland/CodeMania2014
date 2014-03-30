@@ -5,17 +5,32 @@
 
 using namespace std;
 
-string safe_sprintf(string format, string arg) {
+template<typename T>
+struct StringConverter {
+    static string convert(T item) {
+        ostringstream o;
+        o << item;
+        return o.str();
+    }
+};
+
+template<typename T>
+string safe_sprintf(string format, T arg) {
     size_t pos = format.find("%@", 0);
     assert(pos != string::npos);
     
-    format.replace(pos, 2, arg);
+    format.replace(pos, 2, StringConverter<T>::convert(arg));
     return format;
 };
 
+template <typename T, typename Other...>
+string safe_sprintf(string format, T... args) {
+    <#statements#>
+}
+
 int main(int argc, const char * argv[])
 {
-    string targ = safe_sprintf("hello %@, have a nice day!", "joe");
+    string targ = safe_sprintf("hello %@, have %@ nice days", "joe", 99);
     
     printf("%s\n", targ.c_str());
 }
@@ -39,7 +54,7 @@ int main(int argc, const char * argv[])
 
 
 template <typename T>
-struct StringConverter {
+struct _StringConverter {
     static string toString(T item) {
         ostringstream s;
         s << item;
@@ -48,7 +63,7 @@ struct StringConverter {
 };
 
 template <typename T>
-struct StringConverter<T*> {
+struct _StringConverter<T*> {
     static string toString(T* item) {
         ostringstream s;
         s << *item;
