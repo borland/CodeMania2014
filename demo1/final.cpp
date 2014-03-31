@@ -1,3 +1,11 @@
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <cassert>
+#include <vector>
+
+using namespace std;
+
 template<typename T>
 struct StringConverter {
     static string convert(T item) {
@@ -41,9 +49,10 @@ string safe_sprintf(string format, T arg, TRemaining... remaining) {
 
 int main(int argc, const char * argv[])
 {
+    string greeting { "hello" };
     vector<string> people { "orion", "john", "ian" };
     
-    string targ = safe_sprintf("hello %@ - have %@ nice days!", people, 2);
+    string targ = safe_sprintf("%@ %@ - have %@ nice days!", greeting, people, 2);
     
     printf("%s\n", targ.c_str());
 }
