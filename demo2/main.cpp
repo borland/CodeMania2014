@@ -7,7 +7,7 @@
 
 using namespace std;
 
-template<typename T>
+template<typename T, typename Custom = void>
 struct StringConverter {
     static string convert(T item) {
         ostringstream o;
@@ -70,7 +70,6 @@ public:
     static const bool value = decltype(f<T>(nullptr))::value;
 };
 
-
 struct Person {
     string name;
     
@@ -79,9 +78,28 @@ struct Person {
     }
 };
 
+struct IntWrapper {
+    int value;
+    
+    string toString() {
+        return "wrapped:" + StringConverter<int>::convert(value);
+    }
+};
+
+template <class T>
+struct StringConverter<T, typename enable_if<has_toString<T>::value>::type> {
+    static string convert(T item) {
+        return item.toString();
+    }
+};
+
 int main(int argc, const char * argv[])
 {
-    safe_printf("int has_toString? %@, person has_toString? %@\n", has_toString<int>::value, has_toString<Person>::value);
+    Person orion { "orion" };
+    
+    IntWrapper i { 7 };
+    
+    safe_printf("%@", i);
     return 0;
 }
 
