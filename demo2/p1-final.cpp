@@ -54,7 +54,7 @@ void safe_printf(string format, TRemaining... remaining) {
     cout << s;
 }
 
-///////////////////////////////////////////////////////////
+#pragma mark - Start Here
 
 template <typename T>
 class has_toString
