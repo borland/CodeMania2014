@@ -7,26 +7,23 @@
 
 using namespace std;
 
-template<typename T, typename SpecializationHack = true_type>
+template<typename T, typename Hack = true_type>
 struct StringConverter {
     static string convert(T item) {
-        ostringstream o;
-        o << item;
-        return o.str();
+        ostringstream o; o << item; return o.str();
     }
 };
 
 template<typename T>
 struct StringConverter<vector<T>> {
     static string convert(vector<T> items) {
-        string output { "" };
-        for(T& item : items) {
-            if(output.length())
-                output.append(",");
-            
-            output.append(StringConverter<T>::convert(item));
+        string ret = "";
+        for(T& x : items) {
+            if(ret.length())
+                ret += ",";
+            ret += StringConverter<T>::convert(x);
         }
-        return output;
+        return ret;
     }
 };
 
@@ -39,59 +36,46 @@ string safe_sprintf(string format, T arg) {
     return format;
 };
 
-template <typename T, typename... TRemaining>
+template<typename T, typename... TRemaining>
 string safe_sprintf(string format, T arg, TRemaining... remaining) {
     size_t pos = format.find("%@", 0);
     assert(pos != string::npos);
     
     format.replace(pos, 2, StringConverter<T>::convert(arg));
     return safe_sprintf(format, remaining...);
-}
+};
 
 template <typename... TRemaining>
-void safe_printf(string format, TRemaining... remaining) {
-    string s = safe_sprintf(format, remaining...);
-    cout << s;
+void safe_printf(string format, TRemaining... args) {
+    string s = safe_sprintf(format, args...);
+    cout << s << endl;
 }
-
-///////////////////////////////////////////////////////////
 
 struct Person {
     string name;
     
-    string toString() {
-        return name;
-    }
+    string toString() { return string{"p:"} + name; }
 };
 
-template<typename T>
-class has_toString {
-private:
-    template <typename U, U> class typesEqual { };
+template<class T>
+struct has_toString {
+    template<class PtrType, PtrType> struct eq { };
     
-    template <typename C> static true_type f(typesEqual<string(C::*)(), &C::toString>*);
+    template<class X> static true_type f(eq<string(X::*)(), &X::toString>*);
+    template<class X> static false_type f(...);
     
-    template <typename> static false_type f(...);
-    
-public:
     //    static const bool value = decltype(f<T>(nullptr))::value;
-    typedef decltype(f<T>(nullptr)) valueType;
+    typedef decltype(f<T>(nullptr)) type;
 };
 
-
 template<typename T>
-struct StringConverter<T, typename has_toString<T>::valueType> {
-    static string convert(T item) {
-        return item.toString();
-    }
+struct StringConverter<T, typename has_toString<T>::type> {
+    static string convert(T item) { return item.toString(); }
 };
 
 int main(int argc, const char * argv[])
 {
-    Person p{"Orion"};
-    
-    safe_printf("%@ %@, there are %@ minutes to go!\n", "Hello", p, 92);
-    
-    return 0;
+    Person orion{ "orion" };
+    safe_printf("%@ %@", orion, 3);
+    //    safe_printf("%@ %@ - have %@ nice days", "hello", orion, 3);
 }
-
