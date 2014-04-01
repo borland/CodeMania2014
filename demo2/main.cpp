@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cassert>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -44,10 +45,14 @@ string safe_sprintf(string format, T arg, TRemaining... remaining) {
     return safe_sprintf(format, remaining...);
 };
 
+template <typename... TRemaining>
+void safe_printf(string format, TRemaining... args) {
+    string s = safe_sprintf(format, args...);
+    cout << s << endl;
+}
+
 int main(int argc, const char * argv[])
 {
     vector<string> people {"orion", "john"};
-    string targ = safe_sprintf("%@ %@ - have %@ nice days", "hello", people, 3);
-    
-    printf("%s\n", targ.c_str());
+    safe_printf("%@ %@ - have %@ nice days", "hello", people, 3);
 }
