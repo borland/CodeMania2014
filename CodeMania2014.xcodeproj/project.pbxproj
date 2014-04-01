@@ -44,6 +44,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D349889518EA3C6100DEF105 /* p2-final.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "p2-final.cpp"; sourceTree = "<group>"; };
 		D3509CF518D526BD00B76E9B /* safeprintf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = safeprintf.h; sourceTree = "<group>"; };
 		D3509CF718DE5FC100B76E9B /* generic_constraints.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = generic_constraints.cpp; sourceTree = "<group>"; };
 		D3509D0118E6545900B76E9B /* demo1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = demo1; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +99,7 @@
 			children = (
 				D3509D1218E9140400B76E9B /* main.cpp */,
 				D3509D1A18E91A5C00B76E9B /* p1-final.cpp */,
+				D349889518EA3C6100DEF105 /* p2-final.cpp */,
 			);
 			path = demo2;
 			sourceTree = "<group>";
