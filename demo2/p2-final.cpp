@@ -7,7 +7,7 @@
 
 using namespace std;
 
-template<typename T, typename Enable = void>
+template<typename T, typename SpecializationHack = true_type>
 struct StringConverter {
     static string convert(T item) {
         ostringstream o;
@@ -65,20 +65,22 @@ struct Person {
 };
 
 template<typename T>
-class enable_if_has_toString {
+class has_toString {
 private:
     template <typename U, U> class typesEqual { };
     
-    template <typename C> static void f(typesEqual<string (C::*)(void), &C::toString>*);
+    template <typename C> static true_type f(typesEqual<string(C::*)(), &C::toString>*);
     
     template <typename> static false_type f(...);
     
 public:
-    typedef decltype(f<T>(nullptr)) type;
+    //    static const bool value = decltype(f<T>(nullptr))::value;
+    typedef decltype(f<T>(nullptr)) valueType;
 };
 
-template <class T>
-struct StringConverter<T, typename enable_if_has_toString<T>::type> {
+
+template<typename T>
+struct StringConverter<T, typename has_toString<T>::valueType> {
     static string convert(T item) {
         return item.toString();
     }
@@ -86,13 +88,10 @@ struct StringConverter<T, typename enable_if_has_toString<T>::type> {
 
 int main(int argc, const char * argv[])
 {
-    Person orion { "orion" };
+    Person p{"Orion"};
     
-    vector<int> nums { 1, 9, 22 };
+    safe_printf("%@ %@, there are %@ minutes to go!\n", "Hello", p, 92);
     
-    safe_printf("%@ %@, have %@ nice days\n", "Hello", orion, nums);
-    
-    //    safe_printf("hello %@\n", s);
     return 0;
 }
 

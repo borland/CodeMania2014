@@ -56,21 +56,6 @@ void safe_printf(string format, TRemaining... remaining) {
 
 #pragma mark - Start Here
 
-template <typename T>
-class has_toString
-{
-private:
-    template <typename U, U> class typesEqual { };
-    
-    template <typename C> static true_type f(typesEqual<string (C::*)(void), &C::toString>*);
-    
-    template <typename> static false_type f(...);
-    
-public:
-    static const bool value = decltype(f<T>(nullptr))::value;
-};
-
-
 struct Person {
     string name;
     
@@ -79,9 +64,24 @@ struct Person {
     }
 };
 
+template<typename T>
+class has_toString {
+private:
+    template <typename U, U> class typesEqual { };
+    
+    template <typename C> static true_type f(typesEqual<string(C::*)(), &C::toString>*);
+    
+    template <typename> static false_type f(...);
+    
+public:
+    static const bool value = decltype(f<T>(nullptr))::value;
+};
+
 int main(int argc, const char * argv[])
 {
-    safe_printf("int has_toString? %@, person has_toString? %@\n", has_toString<int>::value, has_toString<Person>::value);
+    safe_printf("person has tostring: %@\n", has_toString<Person>::value);
+    safe_printf("int has tostring: %@\n", has_toString<int>::value);
+    
     return 0;
 }
 

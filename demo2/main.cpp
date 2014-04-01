@@ -3,11 +3,10 @@
 #include <algorithm>
 #include <cassert>
 #include <vector>
-#include <iostream>
 
 using namespace std;
 
-template<typename T, typename Enable = void>
+template<typename T>
 struct StringConverter {
     static string convert(T item) {
         ostringstream o;
@@ -48,51 +47,12 @@ string safe_sprintf(string format, T arg, TRemaining... remaining) {
     return safe_sprintf(format, remaining...);
 }
 
-template <typename... TRemaining>
-void safe_printf(string format, TRemaining... remaining) {
-    string s = safe_sprintf(format, remaining...);
-    cout << s;
-}
-
-///////////////////////////////////////////////////////////
-
-struct Person {
-    string name;
-    
-    string toString() {
-        return name;
-    }
-};
-
-template<typename T>
-class enable_if_has_toString {
-private:
-    template <typename U, U> class typesEqual { };
-    
-    template <typename C> static void f(typesEqual<string (C::*)(void), &C::toString>*);
-    
-    template <typename> static false_type f(...);
-    
-public:
-    typedef decltype(f<T>(nullptr)) type;
-};
-
-template <class T>
-struct StringConverter<T, typename enable_if_has_toString<T>::type> {
-    static string convert(T item) {
-        return item.toString();
-    }
-};
-
 int main(int argc, const char * argv[])
 {
-    Person orion { "orion" };
+    string greeting { "hello" };
+    vector<string> people { "orion", "john", "ian" };
     
-    vector<int> nums { 1, 9, 22 };
+    string targ = safe_sprintf("%@ %@ - have %@ nice days!", greeting, people, 2);
     
-    safe_printf("%@ %@, have %@ nice days\n", "Hello", orion, nums);
-    
-//    safe_printf("hello %@\n", s);
-    return 0;
+    printf("%s\n", targ.c_str());
 }
-
