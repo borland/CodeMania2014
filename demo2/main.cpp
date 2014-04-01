@@ -3,29 +3,27 @@
 #include <algorithm>
 #include <cassert>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
 template<typename T>
 struct StringConverter {
     static string convert(T item) {
-        ostringstream o;
-        o << item;
-        return o.str();
+        ostringstream o; o << item; return o.str();
     }
 };
 
 template<typename T>
 struct StringConverter<vector<T>> {
     static string convert(vector<T> items) {
-        string output { "" };
-        for(T& item : items) {
-            if(output.length())
-                output.append(",");
-            
-            output.append(StringConverter<T>::convert(item));
+        string ret = "";
+        for(T& x : items) {
+            if(ret.length())
+                ret += ",";
+            ret += StringConverter<T>::convert(x);
         }
-        return output;
+        return ret;
     }
 };
 
@@ -38,21 +36,29 @@ string safe_sprintf(string format, T arg) {
     return format;
 };
 
-template <typename T, typename... TRemaining>
+template<typename T, typename... TRemaining>
 string safe_sprintf(string format, T arg, TRemaining... remaining) {
     size_t pos = format.find("%@", 0);
     assert(pos != string::npos);
     
     format.replace(pos, 2, StringConverter<T>::convert(arg));
     return safe_sprintf(format, remaining...);
+};
+
+template <typename... TRemaining>
+void safe_printf(string format, TRemaining... args) {
+    string s = safe_sprintf(format, args...);
+    cout << s << endl;
 }
+
+struct Person {
+    string name;
+    
+    string toString() { return string{"p:"} + name; }
+};
 
 int main(int argc, const char * argv[])
 {
-    string greeting { "hello" };
-    vector<string> people { "orion", "john", "ian" };
-    
-    string targ = safe_sprintf("%@ %@ - have %@ nice days!", greeting, people, 2);
-    
-    printf("%s\n", targ.c_str());
+    Person orion{ "orion" };
+    safe_printf("%@ %@ - have %@ nice days", "hello", orion, 3);
 }
