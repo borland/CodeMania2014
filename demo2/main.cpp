@@ -51,6 +51,11 @@ void safe_printf(string format, TRemaining... args) {
     cout << s << endl;
 }
 
+struct Person {
+    string name;
+    string toString() { return "<Person:"+name+">"; }
+};
+
 int main(int argc, const char * argv[])
 {
     vector<string> people {"orion", "john"};

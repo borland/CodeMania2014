@@ -53,10 +53,8 @@ void safe_printf(string format, TRemaining... args) {
 
 struct Person {
     string name;
-    
-    string toString() { return string{"p:"} + name; }
+    string toString() { return "<Person:"+name+">"; }
 };
-
 template<class T>
 struct has_toString {
     template<class PtrType, PtrType> struct eq { };
