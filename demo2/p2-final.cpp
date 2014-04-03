@@ -63,18 +63,16 @@ struct has_toString {
     template<class X> static true_type f(eq<string(X::*)(), &X::toString>*);
     template<class X> static false_type f(...);
     
-    //    static const bool value = decltype(f<T>(nullptr))::value;
-    typedef decltype(f<T>(nullptr)) type;
+    typedef decltype(f<T>(nullptr)) result;
 };
 
 template<typename T>
-struct StringConverter<T, typename has_toString<T>::type> {
+struct StringConverter<T, typename has_toString<T>::result> {
     static string convert(T item) { return item.toString(); }
 };
 
 int main(int argc, const char * argv[])
 {
-    Person orion{ "orion" };
-    safe_printf("%@ %@", orion, 3);
-    //    safe_printf("%@ %@ - have %@ nice days", "hello", orion, 3);
+    Person p{"orion"};
+    safe_printf("%@ %@ - have %@ nice days", "hello", p, 3);
 }

@@ -58,6 +58,6 @@ struct Person {
 
 int main(int argc, const char * argv[])
 {
-    vector<string> people {"orion", "john"};
-    safe_printf("%@ %@ - have %@ nice days", "hello", people, 3);
+    Person p{"orion"};
+    safe_printf("%@ %@ - have %@ nice days", "hello", p, 3);
 }
