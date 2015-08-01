@@ -7,7 +7,7 @@
 
 using namespace std;
 
-template<typename T>
+template<typename T, typename Dummy = true_type>
 struct StringConverter {
     static string convert(T item) {
         ostringstream o; o << item; return o.str();
@@ -56,8 +56,30 @@ struct Person {
     string toString() { return "<Person:"+name+">"; }
 };
 
+template<typename T>
+struct has_toString {
+    template<class PtrType, PtrType> struct eq { };
+    
+    template<class X> static true_type f(eq<string(X::*)(), &X::toString>*);
+    template<class X> static false_type f(...);
+    
+    typedef decltype(f<T>(nullptr)) result;
+};
+
+template<typename T>
+struct StringConverter<T, typename has_toString<T>::result> {
+    static string convert(T item) {
+        return item.toString();
+    }
+};
+
+struct IntWrapper {
+    string toString() { return "aha"; }
+};
+
 int main(int argc, const char * argv[])
 {
     Person p{"orion"};
-    safe_printf("%@ %@ - have %@ nice days", "hello", p, 3);
+    vector<Person> p2 { p };
+    safe_printf("%@ %@ - have %@ nice days", "hello", p2, 3);
 }
